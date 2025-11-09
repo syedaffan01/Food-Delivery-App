@@ -19,9 +19,9 @@ const SignUp = () => {
 
         try{
              await createUser({
-                 email: email,
-                 password: password,
-                 name: name,
+                 email,
+                 password,
+                 name
              })
 
 
