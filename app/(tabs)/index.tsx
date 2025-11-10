@@ -21,6 +21,7 @@ export default function Index() {
                         const isEven = index % 2 === 0
 
 
+
                         return (
                             <View>
                                 <Pressable
