@@ -1,12 +1,17 @@
-import {Account, Avatars, Client, Databases, ID, Query} from "react-native-appwrite";
-import {CreateUserParams, SignInParams} from "@/type";
+import {Account, Avatars, Client, Databases, ID, Query, Storage} from "react-native-appwrite";
+import {CreateUserParams, GetMenuParams, SignInParams} from "@/type";
 
 export const appwriteConfig = {
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
     platform: "com.aff.foodordering",
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
     databaseId: '690d258700016a5019fa',
-    userCollectionId: 'user'
+    bucketId: '6912637800270ffad08d',
+    userCollectionId: 'user',
+    categoriesCollectionId: 'categories',
+    menuCollectionId: 'menu',
+    customizationsCollectionId: 'customizations',
+    menuCustomizationsCollectionId: 'menu_customizations'
 }
 
 export const client = new Client();
@@ -19,8 +24,9 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
-
+//appwrite fucn
 export const createUser =  async ({ email, password, name}: CreateUserParams) => {
     try{
         const newAccount = await account.create(ID.unique(), email, password, name)
@@ -74,4 +80,40 @@ const currentUser = await databases.listDocuments(
     }
 
 
+}
+
+export const getMenu = async ({category, query}: GetMenuParams) => {
+    try{
+const queries: string[] = [];
+
+if(category) queries.push(Query.equal('category', category));
+if(query) queries.push(Query.search('name', query));
+
+const menus = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.menuCollectionId,
+    queries,
+)
+
+        return menus.documents
+
+
+    }catch (e){
+        throw new Error(e as string)
+    }
+
+
+} //getmenufunc
+
+export const getCategories = async () => {
+    try{
+        const categories = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.categoriesCollectionId,
+        )
+    }catch (e) {
+        throw new Error(e as string)
+    }
+    
+    
 }
