@@ -9,7 +9,7 @@ import {useEffect} from "react";
 import CartButton from "@/components/CartButton";
 import cn from "clsx";
 import MenuCard from "@/components/MenuCard";
-import {MenuItem} from "@/type";
+import {Category, MenuItem} from "@/type";
 import SearchBar from "@/components/SearchBar";
 import Filter from "@/components/Filter";
 
@@ -66,7 +66,7 @@ const Search = () => {
 
                         <SearchBar />
 
-                        <Filter />
+                        <Filter categories={categories as unknown as Category[]} />
 
                     </View>
 
