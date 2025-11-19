@@ -50,8 +50,13 @@ export const createUser =  async ({ email, password, name}: CreateUserParams) =>
     }
 }
 
+
+
 export const signIn = async({email, password}: SignInParams) => {
     try {
+        await account.deleteSessions().catch(() => {}); //ed appwriteexception
+
+
         const session = await account.createEmailPasswordSession(email, password)
     } catch (e) {
         throw new Error(e as string)
